@@ -46,14 +46,16 @@ const normalizeVeiculo = (veiculo: string): string => {
   return normalized;
 };
 
-// Fonte De Brito — planilha Consolidado (índice → campo):
+// Layout "Consolidado", comum às planilhas da agência (índice → campo):
 // [0] Nome Conta, [1] ID Conta, [2] Data, [3] Device, [4] Campaign Name, [5] Campaign ID,
 // [6] Ad Group Name, [7] Ad group ID, [8] Ad Name, [9] Ad ID, [10] Ad Final URL,
 // [11] Cost (Spend), [12] Impressions, [13] Clicks, [14] Video View, [15] Views 25%,
 // [16] Views 50%, [17] Views 75%, [18] Views 100%, [19] VA, [20] Agência, [21] Veículo,
-// [22] Número PI, [23] Tipo de Compra, [24] Investimento, [25] Formato, [26] Campanha,
-// [27] Localização, [28] Cliente
-const mapDeBritoRow = (row: string[]): ProcessedCampaignData | null => {
+// [22] Número PI, [23] Tipo de Compra, [24] Investimento, [25] Formato, [26] Campanha.
+// A partir daí as planilhas divergem: a original traz [27] Localização e [28] Cliente;
+// a do Ministério da Saúde não tem Localização, então Cliente cai em [27]. Só esse índice
+// muda, então o mapeador é criado com a posição da coluna Cliente de cada fonte.
+const createConsolidadoMapper = (clienteIndex: number) => (row: string[]): ProcessedCampaignData | null => {
   if (row.length < 14) return null;
   const numeroPi = row[22] || '';
   if (numeroPi === '#VALUE!') return null;
@@ -84,7 +86,7 @@ const mapDeBritoRow = (row: string[]): ProcessedCampaignData | null => {
     image: '',
     campanha: row[26] || '',
     numeroPi,
-    cliente: row[28] || '',
+    cliente: row[clienteIndex] || '',
     agencia: row[20] || ''
   };
 };
@@ -92,7 +94,12 @@ const mapDeBritoRow = (row: string[]): ProcessedCampaignData | null => {
 const CAMPAIGN_SOURCES: CampaignSource[] = [
   {
     url: 'https://nmbcoamazonia-api.vercel.app/google/sheets/1MSRuhOMQcMsG6wntr76CS2c-Q8xTl81U6Rncwka0muw/data?range=Consolidado',
-    mapRow: mapDeBritoRow
+    mapRow: createConsolidadoMapper(28)
+  },
+  // Ministério da Saúde
+  {
+    url: 'https://nmbcoamazonia-api.vercel.app/google/sheets/1Wn5gD-lrQB9aGqjxCFYU2H9OYKRzUAbJUQoSNppa1-A/data?range=Consolidado',
+    mapRow: createConsolidadoMapper(27)
   }
 ];
 

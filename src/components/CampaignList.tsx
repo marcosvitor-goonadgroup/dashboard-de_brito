@@ -3,12 +3,17 @@ import { useMemo, useState } from 'react';
 import { subDays } from 'date-fns';
 import { toSlug } from '../utils/slug';
 import logoMtur from '../images/MTUR_Logo.png';
+import logoMinisterioSaude from '../images/Logo_Ministerio_da_Saude.png';
 
 const clientLogos: Record<string, string> = {
   'Ministério do Turismo': logoMtur,
   'MINISTÉRIO DO TURISMO': logoMtur,
   'Ministerio do Turismo': logoMtur,
   'MINISTERIO DO TURISMO': logoMtur,
+  'Ministério da Saúde': logoMinisterioSaude,
+  'MINISTÉRIO DA SAÚDE': logoMinisterioSaude,
+  'Ministerio da Saude': logoMinisterioSaude,
+  'MINISTERIO DA SAUDE': logoMinisterioSaude,
 };
 
 interface CampaignListProps {
