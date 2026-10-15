@@ -43,6 +43,10 @@ const normalizeVeiculo = (veiculo: string): string => {
   if (lower === 'audience network' || lower === 'messenger' || lower === 'threads' || lower === 'unknown') {
     return 'Facebook';
   }
+  // A planilha do Sebrae grafa o veículo como "DaIlymotion"
+  if (lower === 'dailymotion' || lower === 'daylimotion') {
+    return 'Dailymotion';
+  }
   return normalized;
 };
 
@@ -53,7 +57,7 @@ const normalizeVeiculo = (veiculo: string): string => {
 // [16] Views 50%, [17] Views 75%, [18] Views 100%, [19] VA, [20] Agência, [21] Veículo,
 // [22] Número PI, [23] Tipo de Compra, [24] Investimento, [25] Formato, [26] Campanha.
 // A partir daí as planilhas divergem: a original traz [27] Localização e [28] Cliente;
-// a do Ministério da Saúde não tem Localização, então Cliente cai em [27]. Só esse índice
+// as do Ministério da Saúde e do Sebrae não têm Localização, então Cliente cai em [27]. Só esse índice
 // muda, então o mapeador é criado com a posição da coluna Cliente de cada fonte.
 const createConsolidadoMapper = (clienteIndex: number) => (row: string[]): ProcessedCampaignData | null => {
   if (row.length < 14) return null;
@@ -99,6 +103,11 @@ const CAMPAIGN_SOURCES: CampaignSource[] = [
   // Ministério da Saúde
   {
     url: 'https://nmbcoamazonia-api.vercel.app/google/sheets/1Wn5gD-lrQB9aGqjxCFYU2H9OYKRzUAbJUQoSNppa1-A/data?range=Consolidado',
+    mapRow: createConsolidadoMapper(27)
+  },
+  // Sebrae
+  {
+    url: 'https://nmbcoamazonia-api.vercel.app/google/sheets/1CJNtZWV09nflfN3rON59oiV_Ic0LDpNLdNpXW-XpnTk/data?range=Consolidado',
     mapRow: createConsolidadoMapper(27)
   }
 ];

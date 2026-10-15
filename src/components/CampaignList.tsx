@@ -4,6 +4,7 @@ import { subDays } from 'date-fns';
 import { toSlug } from '../utils/slug';
 import logoMtur from '../images/MTUR_Logo.png';
 import logoMinisterioSaude from '../images/Logo_Ministerio_da_Saude.png';
+import logoSebrae from '../images/Sebrae_logo.svg';
 
 const clientLogos: Record<string, string> = {
   'Ministério do Turismo': logoMtur,
@@ -14,6 +15,8 @@ const clientLogos: Record<string, string> = {
   'MINISTÉRIO DA SAÚDE': logoMinisterioSaude,
   'Ministerio da Saude': logoMinisterioSaude,
   'MINISTERIO DA SAUDE': logoMinisterioSaude,
+  'Sebrae': logoSebrae,
+  'SEBRAE': logoSebrae,
 };
 
 interface CampaignListProps {

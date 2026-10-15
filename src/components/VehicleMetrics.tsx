@@ -2,10 +2,12 @@ import { useMemo, JSX } from 'react';
 import { ProcessedCampaignData, Filters } from '../types/campaign';
 import BenchmarkIndicator from './BenchmarkIndicator';
 import logoTodaMateria from '../images/logo-toda_materia.svg';
+import logoDailymotion from '../images/dailymotion_logo.svg';
 
 const vehicleLogoImages: Record<string, string> = {
   'Toda Matéria': logoTodaMateria,
   'Toda Materia': logoTodaMateria,
+  'Dailymotion': logoDailymotion,
 };
 
 interface VehicleMetricsProps {
